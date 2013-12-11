@@ -52,8 +52,9 @@ module RecurringSelect
     params[:week_start] = params[:week_start].to_i if params[:week_start]
     begin
       if params[:until]
-        # Set to 23:59:59 (in current TZ) to encompass all events on until day
-        params[:until] = Time.zone.at(params[:until].to_i).change(hour: 23, min: 59, sec: 59)
+        params[:until].symbolize_keys!
+        # Convert string to Time, if it isn't already
+        params[:until][:time] = Time.zone.parse(params[:until][:time]) unless params[:until][:time].is_a? Time
       end
     rescue ArgumentError
       # Invalid date given, attempt to assign :until will fail silently
