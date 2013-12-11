@@ -181,10 +181,13 @@ window.RecurringSelectDialog =
       @setRuleUntil = (date) =>
         @current_rule.hash ||= {}
         @current_rule.str = null
-        @current_rule.hash.until = {
-          "time": "#{date}T23:59:59Z",
-          "zone": "Eastern Time (US & Canada)"
-        }
+        if date == null
+          @current_rule.hash.until = null
+        else
+          @current_rule.hash.until = {
+            "time": "#{date}T23:59:59Z",
+            "zone": "Eastern Time (US & Canada)"
+          }
         @summaryUpdate()
         false
 
@@ -330,6 +333,7 @@ window.RecurringSelectDialog =
       if $el.is ':checked'
         $untilInput.val('').blur()
         $untilSection.hide()
+        @setRuleUntil(null)
       else
         if @current_rule.hash?.until
           @setDatepickerUntil(@current_rule.hash.until)
