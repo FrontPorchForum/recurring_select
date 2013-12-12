@@ -202,9 +202,9 @@ window.RecurringSelectDialog =
       .blur (e) =>
         @setRuleUntil(e.currentTarget.value)
 
-      @setDatepickerUntil(@current_rule.hash.until) if @current_rule.hash?.until
-
-      @content.find('#indefinite').click() if @current_rule.hash?.until?
+      if @current_rule.hash?.until?
+        @setDatepickerUntil(@current_rule.hash.until) 
+        @content.find('#indefinite').prop("checked", false)
 
     init_calendar_days: (section) =>
       monthly_calendar = section.find(".rs_calendar_day")
@@ -328,7 +328,7 @@ window.RecurringSelectDialog =
 
     indefiniteChanged: (event) =>
       $el = $(event.currentTarget)
-      $untilSection = $el.parent().next('.until_input')
+      $untilSection = $el.closest('.until_option').find('.until_input')
       $untilInput = $untilSection.find '#until'
       if $el.is ':checked'
         $untilInput.val('').blur()
@@ -414,13 +414,13 @@ window.RecurringSelectDialog =
               </p>
             </div>
             <div class='until_option'>
-              <p class='indefinite_input'>
-                <input id='indefinite' type='checkbox' checked />
-                <label for='indefinite'>#{$.fn.recurring_select.texts["repeats_indefinitely"]}</label>
-              </p>
-              <p class='until_input' style='display:none'>
+              <p class='until_input'>
                 #{$.fn.recurring_select.texts["until"]}
                 <input id='until' type='text' name='rs_until' size='8' />
+              </p>
+              <p class='indefinite_input'>
+                <input id='indefinite' type='checkbox' />
+                <label for='indefinite'>#{$.fn.recurring_select.texts["repeats_indefinitely"]}</label>
               </p>
             </div>
             <p class='rs_summary'>
