@@ -71,7 +71,7 @@ window.RecurringSelectDialog =
       @content.on 'click tap', 'h1 a', @cancel
       @save_button = @content.find('input.rs_save').on "click tap", @save
       @content.find('input.rs_cancel').on "click tap", @cancel
-      @content.find('#indefinite').on 'change tap', @indefiniteChanged
+      @content.find('#until').on 'change tap', @untilChanged
 
     freqInit: ->
       @freq_select = @outer_holder.find ".rs_frequency"
@@ -181,7 +181,7 @@ window.RecurringSelectDialog =
       @setRuleUntil = (date) =>
         @current_rule.hash ||= {}
         @current_rule.str = null
-        if date == null
+        if !date
           @current_rule.hash.until = null
         else
           @current_rule.hash.until = {
@@ -204,7 +204,6 @@ window.RecurringSelectDialog =
 
       if @current_rule.hash?.until?
         @setDatepickerUntil(@current_rule.hash.until) 
-        @content.find('#indefinite').prop("checked", false)
 
     init_calendar_days: (section) =>
       monthly_calendar = section.find(".rs_calendar_day")
@@ -326,21 +325,10 @@ window.RecurringSelectDialog =
       @summaryUpdate()
       false
 
-    indefiniteChanged: (event) =>
-      $el = $(event.currentTarget)
-      $untilSection = $el.closest('.until_option').find('.until_input')
-      $untilInput = $untilSection.find '#until'
-      if $el.is ':checked'
-        $untilInput.val('').blur()
-        $untilSection.hide()
+    untilChanged: (event) =>
+      $untilInput = $(event.currentTarget)
+      if $untilInput.val() == ''
         @setRuleUntil(null)
-      else
-        if @current_rule.hash?.until
-          @setDatepickerUntil(@current_rule.hash.until)
-        else
-          $untilInput.datepicker('setDate', @getUntilDefaultDate())
-        $untilInput.blur()
-        $untilSection.show()
 
     getUntilDefaultDate: =>
       today = new Date
@@ -419,7 +407,7 @@ window.RecurringSelectDialog =
                 <input id='until' type='text' name='rs_until' size='8' />
               </p>
               <p class='indefinite_input'>
-                <input id='indefinite' type='checkbox' />
+                <!--<input id='indefinite' type='hidden' />-->
                 <label for='indefinite'>#{$.fn.recurring_select.texts["repeats_indefinitely"]}</label>
               </p>
             </div>
