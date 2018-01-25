@@ -1,11 +1,10 @@
-source "https://rubygems.org"
-
-# Declare your gem's dependencies in recurring_select.gemspec.
-# Bundler will treat runtime dependencies like base dependencies, and
-# development dependencies will be added by default to the :development group.
+source 'https://rubygems.org'
 gemspec
 
-gem "pg"
-gem 'jquery-rails'
-gem "jquery-ui-rails"
+gem 'pg', platform: :ruby
+gem 'activerecord-jdbcpostgresql-adapter', platform: :jruby
 
+gem 'jquery-rails'
+
+gem 'rails', '~> 4.0.12'
+gem 'sass-rails', '~> 4.0.5'

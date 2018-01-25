@@ -1,4 +1,5 @@
 $.fn.recurring_select.texts = {
+  locale_iso_code: "fr"
   repeat: "Récurrence"
   last_day: "Dernier jour"
   frequency: "Fréquence"
@@ -18,8 +19,9 @@ $.fn.recurring_select.texts = {
   cancel: "Annuler"
   summary: "Résumé"
   first_day_of_week: 1
-  days_first_letter: ["D", "L", "M", "M", "J", "V", "S" ]
-  order: ["1er", "2ème", "3ème", "4ème"],
+  days_first_letter: ["D", "L", "M", "M", "J", "V", "S"]
+  order: ["1er", "2ème", "3ème", "4ème", "5ème", "Dernier"]
+  show_week: [true, true, true, true, false, false]
   until: "Until",
   repeats_indefinitely: "Repeats indefinitely"
 }

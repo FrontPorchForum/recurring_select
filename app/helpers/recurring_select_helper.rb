@@ -2,7 +2,7 @@ require "ice_cube"
 
 module RecurringSelectHelper
   module FormHelper
-    if Rails::VERSION::MAJOR == 4
+    if Rails::VERSION::MAJOR == 4 || Rails::VERSION::MAJOR == 5
       def select_recurring(object, method, default_schedules = nil, options = {}, html_options = {})
         RecurringSelectTag.new(object, method, self, default_schedules, options, html_options).render
       end
@@ -12,7 +12,7 @@ module RecurringSelectHelper
       end
     end
   end
-
+  
   module FormBuilder
     def select_recurring(method, default_schedules = nil, options = {}, html_options = {})
       if !@template.respond_to?(:select_recurring)
@@ -33,10 +33,10 @@ module RecurringSelectHelper
 
       if default_schedules.blank?
         if currently_selected_rule.present?
-          options_array << blank_option if options[:allow_blank]
           options_array << ice_cube_rule_to_option(currently_selected_rule)
           options_array << separator
           options_array << [I18n.t("recurring_select.change_schedule"), "custom"]
+          options_array << blank_option if options[:allow_blank]
         else
           options_array << blank_option
           options_array << [I18n.t("recurring_select.set_schedule"), "custom"]
